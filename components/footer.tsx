@@ -2,14 +2,13 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import Image from 'next/image'
 import { portfolioData } from '@/lib/data'
-import { EXPO_EASE, SPRING_EASE } from '@/lib/easing'
+import { EXPO_EASE } from '@/lib/easing'
 import {
   Mail,
   Phone,
   Linkedin,
-  Briefcase,
-  Users,
   Calendar,
   ArrowUpRight,
   Heart,
@@ -61,12 +60,12 @@ export function Footer() {
     {
       label: 'Malt',
       href: portfolioData.personal.malt,
-      icon: Briefcase,
+      image: '/malt.png',
     },
     {
       label: 'Collective',
       href: portfolioData.personal.collective,
-      icon: Users,
+      image: '/collective.png',
     },
   ]
 
@@ -139,7 +138,6 @@ export function Footer() {
           >
             {/* Colonne 1 : Marque */}
             <motion.div variants={itemVariants} className="space-y-5 sm:col-span-2 lg:col-span-1">
-              {/* Logo / Nom */}
               <div>
                 <h3
                   className="text-2xl sm:text-3xl font-bold tracking-tight"
@@ -159,7 +157,6 @@ export function Footer() {
                 </h3>
               </div>
 
-              {/* Description */}
               <p
                 className="text-sm leading-relaxed"
                 style={{ color: `var(--background)`, opacity: 0.7 }}
@@ -169,7 +166,6 @@ export function Footer() {
                 missions freelance.
               </p>
 
-              {/* Badge disponibilité */}
               <div
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border"
                 style={{
@@ -290,7 +286,9 @@ export function Footer() {
               </h4>
               <ul className="space-y-2.5">
                 {socialLinks.map((social) => {
-                  const Icon = social.icon
+                  const isImage = 'image' in social
+                  const Icon = !isImage ? social.icon : null
+
                   return (
                     <li key={social.label}>
                       <a
@@ -313,12 +311,22 @@ export function Footer() {
                         }}
                       >
                         <div
-                          className="w-7 h-7 rounded-md flex items-center justify-center transition-colors duration-200"
+                          className="w-7 h-7 rounded-md flex items-center justify-center overflow-hidden transition-colors duration-200"
                           style={{
                             background: `${`var(--background)`}10`,
                           }}
                         >
-                          <Icon size={14} />
+                          {isImage ? (
+                            <Image
+                              src={social.image!}
+                              alt={social.label}
+                              width={16}
+                              height={16}
+                              className="object-contain opacity-70 group-hover:opacity-100 transition-opacity invert"
+                            />
+                          ) : (
+                            Icon && <Icon size={14} />
+                          )}
                         </div>
                         <span>{social.label}</span>
                         <ArrowUpRight
@@ -375,27 +383,42 @@ export function Footer() {
 
             {/* Liens rapides */}
             <motion.div variants={itemVariants} className="flex items-center gap-4">
-              {socialLinks.slice(0, 3).map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-all duration-200 hover:scale-110"
-                  style={{ color: `var(--background)`, opacity: 0.5 }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.opacity = '1'
-                    e.currentTarget.style.color = `var(--secondary)`
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = '0.5'
-                    e.currentTarget.style.color = `var(--background)`
-                  }}
-                  aria-label={social.label}
-                >
-                  <social.icon size={18} />
-                </a>
-              ))}
+              {socialLinks.map((social) => {
+                const isImage = 'image' in social
+                const Icon = !isImage ? social.icon : null
+
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-all duration-200 hover:scale-110"
+                    style={{ color: `var(--background)`, opacity: 0.5 }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = '1'
+                      e.currentTarget.style.color = `var(--secondary)`
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = '0.5'
+                      e.currentTarget.style.color = `var(--background)`
+                    }}
+                    aria-label={social.label}
+                  >
+                    {isImage ? (
+                      <Image
+                        src={social.image!}
+                        alt={social.label}
+                        width={18}
+                        height={18}
+                        className="object-contain opacity-50 hover:opacity-100 transition-opacity invert"
+                      />
+                    ) : (
+                      Icon && <Icon size={18} />
+                    )}
+                  </a>
+                )
+              })}
             </motion.div>
           </motion.div>
         </motion.div>

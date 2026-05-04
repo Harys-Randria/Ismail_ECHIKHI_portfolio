@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+import Image from 'next/image'
 import { portfolioData } from '@/lib/data'
 import { EXPO_EASE, SPRING_EASE } from '@/lib/easing'
 import {
@@ -11,8 +12,6 @@ import {
   Calendar,
   ArrowUpRight,
   Linkedin,
-  Briefcase,
-  Users,
   Clock,
   CheckCircle,
   Copy,
@@ -53,7 +52,6 @@ export function Contact() {
       setCopiedField(field)
       setTimeout(() => setCopiedField(null), 2000)
     } catch {
-      // Fallback pour les navigateurs plus anciens
       const textarea = document.createElement('textarea')
       textarea.value = text
       document.body.appendChild(textarea)
@@ -106,14 +104,14 @@ export function Contact() {
     {
       label: 'Malt',
       href: portfolioData.personal.malt,
-      icon: Briefcase,
+      image: '/malt.png',
       color: 'var(--secondary)',
       description: 'Plateforme freelance',
     },
     {
       label: 'Collective',
       href: portfolioData.personal.collective,
-      icon: Users,
+      image: '/collective.png',
       color: 'var(--accent)',
       description: 'Communauté tech',
     },
@@ -188,16 +186,22 @@ export function Contact() {
           {/* ==================== CARTE PRINCIPALE CALENDLY ==================== */}
           <motion.div variants={itemVariants} className="relative">
             <div
-              className="relative p-8 sm:p-12 rounded-2xl border-2 overflow-hidden"
+              className="relative p-8 sm:p-12 rounded-2xl overflow-hidden"
               style={{
-                background: `linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 80%, var(--secondary)))`,
-                borderColor: `transparent`,
-                boxShadow: `0 20px 60px -20px var(--primary-glow)`,
+                background: `linear-gradient(145deg, #0010d9 0%, #0010d9 40%, #6eadf5 100%)`,
+                boxShadow: `0 25px 70px -25px rgba(0, 16, 217, 0.35)`,
               }}
             >
-              {/* Motifs décoratifs */}
-              <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 blur-[60px] bg-white pointer-events-none" />
-              <div className="absolute -bottom-20 -left-20 w-48 h-48 rounded-full opacity-15 blur-[50px] bg-white pointer-events-none" />
+              {/* Grain/texture subtile */}
+              <div
+                className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+                }}
+              />
+              {/* Motifs lumineux */}
+              <div className="absolute top-0 right-0 w-72 h-72 rounded-full opacity-8 blur-[80px] bg-white pointer-events-none" />
+              <div className="absolute -bottom-24 -left-24 w-56 h-56 rounded-full opacity-6 blur-[60px] bg-white pointer-events-none" />
 
               <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                 {/* Texte */}
@@ -207,22 +211,15 @@ export function Contact() {
                     Créneau en 30 secondes
                   </div>
 
-                  <h3
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold"
-                    style={{ color: `var(--primary-foreground)` }}
-                  >
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                     Planifiez un appel directement
                   </h3>
 
-                  <p
-                    className="text-base leading-relaxed opacity-90"
-                    style={{ color: `var(--primary-foreground)` }}
-                  >
+                  <p className="text-base leading-relaxed text-white/85">
                     Choisissez le créneau qui vous convient sur mon Calendly.
                     Consultation gratuite, sans engagement.
                   </p>
 
-                  {/* Liste de bénéfices */}
                   <div className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start">
                     {[
                       'Consultation gratuite',
@@ -231,8 +228,7 @@ export function Contact() {
                     ].map((benefit) => (
                       <span
                         key={benefit}
-                        className="inline-flex items-center gap-1.5 text-sm font-medium opacity-90"
-                        style={{ color: `var(--primary-foreground)` }}
+                        className="inline-flex items-center gap-1.5 text-sm font-medium text-white/80"
                       >
                         <CheckCircle size={14} className="opacity-75" />
                         {benefit}
@@ -258,12 +254,12 @@ export function Contact() {
                     overflow-hidden
                   "
                   style={{
-                    background: `var(--primary-foreground)`,
-                    color: `var(--primary)`,
+                    background: `var(--accent)`,
+                    color: `var(--accent-foreground)`,
                     boxShadow: `0 10px 40px -10px rgba(0,0,0,0.3)`,
                   }}
                 >
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
                   <Calendar size={22} className="relative z-10" />
                   <span className="relative z-10">Prendre rendez-vous</span>
                   <ArrowUpRight
@@ -306,7 +302,6 @@ export function Contact() {
                   }}
                   onClick={() => {
                     if (method.href === '#') return
-                    // Si c'est un email ou téléphone, on copie au clic
                     if (method.label === 'Email' || method.label === 'Téléphone') {
                       copyToClipboard(method.copyValue, method.label)
                     }
@@ -398,7 +393,9 @@ export function Contact() {
 
             <div className="flex flex-wrap justify-center gap-4">
               {socialLinks.map((social) => {
-                const Icon = social.icon
+                const isImage = 'image' in social
+                const Icon = !isImage ? social.icon : null
+
                 return (
                   <motion.a
                     key={social.label}
@@ -426,15 +423,27 @@ export function Contact() {
                       e.currentTarget.style.color = `var(--foreground)`
                     }}
                   >
+                    {/* Icône ou image */}
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-300"
+                      className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden transition-colors duration-300"
                       style={{
                         background: `${social.color}15`,
                         color: social.color,
                       }}
                     >
-                      <Icon size={16} />
+                      {isImage ? (
+                        <Image
+                          src={social.image!}
+                          alt={social.label}
+                          width={20}
+                          height={20}
+                          className="object-contain"
+                        />
+                      ) : (
+                        Icon && <Icon size={16} />
+                      )}
                     </div>
+
                     <div className="text-left">
                       <span className="text-sm font-semibold block leading-tight">
                         {social.label}

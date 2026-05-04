@@ -12,13 +12,13 @@ import {
   MapPin,
   Briefcase,
   Sparkles,
+  Linkedin,
 } from 'lucide-react'
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
-  // ✅ Easing défini comme tuple typé (as const) pour satisfaire le type Framer Motion
   const expoEase: [number, number, number, number] = [0.19, 1, 0.22, 1]
   const springEase: [number, number, number, number] = [0.34, 1.56, 0.64, 1]
 
@@ -258,19 +258,43 @@ export function Hero() {
               className="flex items-center gap-4 pt-2"
             >
               {[
-                { label: 'LinkedIn', href: portfolioData.personal.linkedin },
-                { label: 'Malt', href: portfolioData.personal.malt },
+                {
+                  label: 'LinkedIn',
+                  href: portfolioData.personal.linkedin,
+                  icon: Linkedin,
+                },
+                {
+                  label: 'Malt',
+                  href: portfolioData.personal.malt,
+                  image: '/malt.png',
+                },
+                {
+                  label: 'Collective',
+                  href: portfolioData.personal.collective,
+                  image: '/collective.png',
+                },
               ].map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-medium transition-colors duration-200 hover:text-primary flex items-center gap-1"
-                  style={{ color: `var(--muted-foreground)` }}
+                  className="text-xs font-medium transition-all duration-200 hover:opacity-100 flex items-center gap-1.5"
+                  style={{ color: `var(--muted-foreground)`, opacity: 0.7 }}
                 >
+                  {'icon' in social && social.icon ? (
+                    <social.icon size={14} />
+                  ) : 'image' in social && social.image ? (
+                    <Image
+                      src={social.image}
+                      alt={social.label}
+                      width={14}
+                      height={14}
+                      className="rounded-sm"
+                    />
+                  ) : null}
                   {social.label}
-                  <ArrowUpRight size={11} />
+                  <ArrowUpRight size={10} />
                 </a>
               ))}
             </motion.div>
