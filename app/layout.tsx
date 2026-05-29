@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     description: 'Développeur Fullstack Java/Angular avec 10 ans d\'expérience sur des projets complexes pour grands comptes.',
     type: 'website',
   },
+  icons: {
+    icon: '/ismail.jpg',
+  },
 }
 
 export const viewport = {

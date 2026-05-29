@@ -340,7 +340,7 @@ export function Hero() {
                   }}
                 />
                 <Image
-                  src={portfolioData.personal.image}
+                  src='/ismail.jpg'
                   alt={portfolioData.personal.name}
                   fill
                   className="object-cover scale-105 hover:scale-100 transition-transform duration-700"

@@ -84,7 +84,7 @@ export function About() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
               style={{ color: `var(--foreground)` }}
             >
-              Architecte logiciel{' '}
+              Développeur{' '}
               <span style={{ color: `var(--primary)` }}>passionné</span> par la
               qualité et l'innovation
             </h2>
